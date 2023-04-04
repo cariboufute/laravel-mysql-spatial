@@ -1,8 +1,8 @@
 <?php
 
-namespace Eloquent;
+namespace Tests\Unit\Eloquent;
 
-use BaseTestCase;
+use Tests\Unit\BaseTestCase;
 use Grimzy\LaravelMysqlSpatial\Eloquent\Builder;
 use Grimzy\LaravelMysqlSpatial\Eloquent\SpatialExpression;
 use Grimzy\LaravelMysqlSpatial\Eloquent\SpatialTrait;
@@ -20,7 +20,7 @@ class BuilderTest extends BaseTestCase
     protected $builder;
     protected $queryBuilder;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $connection = Mockery::mock(MysqlConnection::class)->makePartial();
         $grammar = Mockery::mock(MySqlGrammar::class)->makePartial();

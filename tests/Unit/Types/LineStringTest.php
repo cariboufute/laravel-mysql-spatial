@@ -1,13 +1,18 @@
 <?php
 
+namespace Tests\Unit\Types;
+
+use GeoJson\Geometry\LineString as GeoJsonLineString;
+use GeoJson\Geometry\Point as GeoJsonPoint;
 use Grimzy\LaravelMysqlSpatial\Types\LineString;
 use Grimzy\LaravelMysqlSpatial\Types\Point;
+use Tests\Unit\BaseTestCase;
 
 class LineStringTest extends BaseTestCase
 {
     private $points;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->points = [new Point(0, 0), new Point(1, 1), new Point(2, 2)];
     }
@@ -47,7 +52,7 @@ class LineStringTest extends BaseTestCase
     {
         $this->assertException(
             \Grimzy\LaravelMysqlSpatial\Exceptions\InvalidGeoJsonException::class,
-            sprintf('Expected %s, got %s', \GeoJson\Geometry\LineString::class, GeoJson\Geometry\Point::class)
+            sprintf('Expected %s, got %s', GeoJsonLineString::class, GeoJsonPoint::class)
         );
         LineString::fromJson('{"type":"Point","coordinates":[3.4,1.2]}');
     }
@@ -56,7 +61,7 @@ class LineStringTest extends BaseTestCase
     {
         $lineString = new LineString($this->points);
 
-        $this->assertInstanceOf(\GeoJson\Geometry\LineString::class, $lineString->jsonSerialize());
+        $this->assertInstanceOf(GeoJsonLineString::class, $lineString->jsonSerialize());
         $this->assertSame('{"type":"LineString","coordinates":[[0,0],[1,1],[2,2]]}', json_encode($lineString));
     }
 }

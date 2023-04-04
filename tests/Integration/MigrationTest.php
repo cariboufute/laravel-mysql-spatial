@@ -1,6 +1,10 @@
 <?php
 
+namespace Tests\Integration;
+
 use Illuminate\Support\Facades\DB;
+use Tests\Integration\Migrations\CreateLocationTable;
+use Tests\Integration\Migrations\UpdateLocationTable;
 
 class MigrationTest extends IntegrationBaseTestCase
 {

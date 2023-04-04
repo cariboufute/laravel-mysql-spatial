@@ -1,11 +1,17 @@
 <?php
 
+namespace Tests\Integration;
+
 use Grimzy\LaravelMysqlSpatial\Types\GeometryCollection;
 use Grimzy\LaravelMysqlSpatial\Types\LineString;
 use Grimzy\LaravelMysqlSpatial\Types\MultiPoint;
 use Grimzy\LaravelMysqlSpatial\Types\MultiPolygon;
 use Grimzy\LaravelMysqlSpatial\Types\Point;
 use Grimzy\LaravelMysqlSpatial\Types\Polygon;
+use Illuminate\Support\Facades\DB;
+use Tests\Integration\Migrations\CreateLocationTable;
+use Tests\Integration\Migrations\UpdateLocationTable;
+use Tests\Integration\Models\WithSridModel;
 
 class SridSpatialTest extends IntegrationBaseTestCase
 {
@@ -125,7 +131,7 @@ class SridSpatialTest extends IntegrationBaseTestCase
         $geo->location = new Point(1, 2, 3857);
         $geo->save();
 
-        $srid = \DB::selectOne('select ST_SRID(location) as srid from with_srid');
+        $srid = DB::selectOne('select ST_SRID(location) as srid from with_srid');
         $this->assertEquals(3857, $srid->srid);
 
         $result = WithSridModel::first();

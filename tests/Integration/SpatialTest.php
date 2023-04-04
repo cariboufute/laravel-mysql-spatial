@@ -1,11 +1,17 @@
 <?php
 
+namespace Tests\Integration;
+
 use Grimzy\LaravelMysqlSpatial\Types\GeometryCollection;
 use Grimzy\LaravelMysqlSpatial\Types\LineString;
 use Grimzy\LaravelMysqlSpatial\Types\MultiPoint;
 use Grimzy\LaravelMysqlSpatial\Types\MultiPolygon;
 use Grimzy\LaravelMysqlSpatial\Types\Point;
 use Grimzy\LaravelMysqlSpatial\Types\Polygon;
+use Tests\Integration\Migrations\CreateLocationTable;
+use Tests\Integration\Migrations\UpdateLocationTable;
+use Tests\Integration\Models\GeometryModel;
+use Tests\Integration\Models\NoSpatialFieldsModel;
 
 class SpatialTest extends IntegrationBaseTestCase
 {

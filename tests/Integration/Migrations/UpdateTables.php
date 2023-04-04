@@ -1,5 +1,8 @@
 <?php
 
+namespace Tests\Integration\Migrations;
+
+use Illuminate\Support\Facades\DB;
 use Grimzy\LaravelMysqlSpatial\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Support\Facades\Schema;
@@ -14,7 +17,7 @@ class UpdateLocationTable extends Migration
     public function up()
     {
         // MySQL < 5.7.5: table has to be MyISAM
-        \DB::statement('ALTER TABLE geometry ENGINE = MyISAM');
+        DB::statement('ALTER TABLE geometry ENGINE = MyISAM');
 
         Schema::table('geometry', function (Blueprint $table) {
             // Make sure point is not nullable

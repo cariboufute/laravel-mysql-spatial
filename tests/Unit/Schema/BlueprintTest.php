@@ -1,11 +1,11 @@
 <?php
 
-namespace Schema;
+namespace Tests\Unit\Schema;
 
-use BaseTestCase;
 use Grimzy\LaravelMysqlSpatial\Schema\Blueprint;
 use Illuminate\Database\Schema\ColumnDefinition;
 use Mockery;
+use Tests\Unit\BaseTestCase;
 
 class BlueprintTest extends BaseTestCase
 {
@@ -14,7 +14,7 @@ class BlueprintTest extends BaseTestCase
      */
     protected $blueprint;
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 

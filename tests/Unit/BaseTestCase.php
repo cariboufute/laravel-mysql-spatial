@@ -1,15 +1,17 @@
 <?php
+namespace Tests\Unit;
 
+use Mockery;
 use PHPUnit\Framework\TestCase;
 
 abstract class BaseTestCase extends TestCase
 {
-    public function tearDown()
+    public function tearDown(): void
     {
         Mockery::close();
     }
 
-    protected function assertException($exceptionName, $exceptionMessage = '', $exceptionCode = 0)
+    protected function assertException($exceptionName, $exceptionMessage = '', $exceptionCode = 0): void
     {
         if (method_exists(parent::class, 'expectException')) {
             parent::expectException($exceptionName);

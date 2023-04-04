@@ -1,8 +1,13 @@
 <?php
 
+namespace Tests\Unit\Types;
+
+use GeoJson\Geometry\MultiLineString as GeoJsonMultiLineString;
+use GeoJson\Geometry\Point as GeoJsonPoint;
 use Grimzy\LaravelMysqlSpatial\Types\LineString;
 use Grimzy\LaravelMysqlSpatial\Types\MultiLineString;
 use Grimzy\LaravelMysqlSpatial\Types\Point;
+use Tests\Unit\BaseTestCase;
 
 class MultiLineStringTest extends BaseTestCase
 {
@@ -47,7 +52,7 @@ class MultiLineStringTest extends BaseTestCase
     {
         $this->assertException(
             \Grimzy\LaravelMysqlSpatial\Exceptions\InvalidGeoJsonException::class,
-            sprintf('Expected %s, got %s', GeoJson\Geometry\MultiLineString::class, GeoJson\Geometry\Point::class)
+            sprintf('Expected %s, got %s', GeoJsonMultiLineString::class, GeoJsonPoint::class)
         );
         MultiLineString::fromJson('{"type":"Point","coordinates":[3.4,1.2]}');
     }
@@ -56,14 +61,14 @@ class MultiLineStringTest extends BaseTestCase
     {
         $multilinestring = MultiLineString::fromWKT('MULTILINESTRING((0 0,1 1,1 2),(2 3,3 2,5 4))');
 
-        $this->assertInstanceOf(\GeoJson\Geometry\MultiLineString::class, $multilinestring->jsonSerialize());
+        $this->assertInstanceOf(GeoJsonMultiLineString::class, $multilinestring->jsonSerialize());
         $this->assertSame('{"type":"MultiLineString","coordinates":[[[0,0],[1,1],[1,2]],[[2,3],[3,2],[5,4]]]}', json_encode($multilinestring));
     }
 
     public function testInvalidArgumentExceptionAtLeastOneEntry()
     {
         $this->assertException(
-            InvalidArgumentException::class,
+            \InvalidArgumentException::class,
             'Grimzy\LaravelMysqlSpatial\Types\MultiLineString must contain at least 1 entry'
         );
         $multilinestring = new MultiLineString([]);
@@ -72,7 +77,7 @@ class MultiLineStringTest extends BaseTestCase
     public function testInvalidArgumentExceptionNotArrayOfLineString()
     {
         $this->assertException(
-            InvalidArgumentException::class,
+            \InvalidArgumentException::class,
             'Grimzy\LaravelMysqlSpatial\Types\MultiLineString must be a collection of Grimzy\LaravelMysqlSpatial\Types\LineString'
         );
         $multilinestring = new MultiLineString([

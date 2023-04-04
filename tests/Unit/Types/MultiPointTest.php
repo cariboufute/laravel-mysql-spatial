@@ -1,7 +1,12 @@
 <?php
 
+namespace Tests\Unit\Types;
+
+use GeoJson\Geometry\MultiPoint as GeoJsonMultiPoint;
+use GeoJson\Geometry\Point as GeoJsonPoint;
 use Grimzy\LaravelMysqlSpatial\Types\MultiPoint;
 use Grimzy\LaravelMysqlSpatial\Types\Point;
+use Tests\Unit\BaseTestCase;
 
 class MultiPointTest extends BaseTestCase
 {
@@ -44,7 +49,7 @@ class MultiPointTest extends BaseTestCase
     {
         $this->assertException(
             \Grimzy\LaravelMysqlSpatial\Exceptions\InvalidGeoJsonException::class,
-            sprintf('Expected %s, got %s', GeoJson\Geometry\MultiPoint::class, GeoJson\Geometry\Point::class)
+            sprintf('Expected %s, got %s', GeoJsonMultiPoint::class, GeoJsonPoint::class)
         );
         MultiPoint::fromJson('{"type":"Point","coordinates":[3.4,1.2]}');
     }
@@ -55,14 +60,14 @@ class MultiPointTest extends BaseTestCase
 
         $multipoint = new MultiPoint($collection);
 
-        $this->assertInstanceOf(\GeoJson\Geometry\MultiPoint::class, $multipoint->jsonSerialize());
+        $this->assertInstanceOf(GeoJsonMultiPoint::class, $multipoint->jsonSerialize());
         $this->assertSame('{"type":"MultiPoint","coordinates":[[0,0],[1,0],[1,1]]}', json_encode($multipoint));
     }
 
     public function testInvalidArgumentExceptionAtLeastOneEntry()
     {
         $this->assertException(
-            InvalidArgumentException::class,
+            \InvalidArgumentException::class,
             'Grimzy\LaravelMysqlSpatial\Types\MultiPoint must contain at least 1 entry'
         );
         $multipoint = new MultiPoint([]);
@@ -71,7 +76,7 @@ class MultiPointTest extends BaseTestCase
     public function testInvalidArgumentExceptionNotArrayOfLineString()
     {
         $this->assertException(
-            InvalidArgumentException::class,
+            \InvalidArgumentException::class,
             'Grimzy\LaravelMysqlSpatial\Types\MultiPoint must be a collection of Grimzy\LaravelMysqlSpatial\Types\Point'
         );
         $multipoint = new MultiPoint([
@@ -97,7 +102,7 @@ class MultiPointTest extends BaseTestCase
 
         // assert invalid
         $this->assertException(
-            InvalidArgumentException::class,
+            \InvalidArgumentException::class,
             'Grimzy\LaravelMysqlSpatial\Types\MultiPoint must be a collection of Grimzy\LaravelMysqlSpatial\Types\Point'
         );
         $multipoint[] = 1;
@@ -145,7 +150,7 @@ class MultiPointTest extends BaseTestCase
         $this->assertEquals($point3, $multipoint[2]);
 
         $this->assertException(
-            InvalidArgumentException::class,
+            \InvalidArgumentException::class,
             '$index is greater than the size of the array'
         );
         $multipoint->insertPoint(100, new Point(100, 100));
